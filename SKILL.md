@@ -12,14 +12,16 @@ Transform a user-provided SysML v2 textual model into a structurally faithful SV
 ## Authority and evidence
 
 1. Use the OMG SysML v2 specification as the authority for language semantics.
-2. Use the user's legally obtained Tim Weilkiens reference as the primary authority for graphical conventions.
-3. Do not claim a graphical convention is specified by SysML v2 merely because it appears in a rendering.
-4. Distinguish:
+2. Use the user's legally obtained Tim Weilkiens reference as the primary authority for graphical notation.
+3. Use a separately selected visual profile for presentation styling. The active profile in this version is **IBMstyle**, based on the user's supplied SodiusWillert/IBM SysML v2 cheat sheet.
+4. Do not claim a graphical convention is specified by SysML v2 merely because it appears in a rendering.
+5. Distinguish:
    - **Normative semantics** — what the SysML v2 model means.
    - **Reference convention** — graphical notation supported by the Weilkiens reference, with page reference where available.
-   - **Rendering decision** — a practical layout or styling choice made by this skill.
-5. If the available sources do not establish a convention, label it as unresolved. Do not silently invent notation.
-6. Do not reproduce substantial copyrighted text or images from the reference. Record concise, independently written rules and page references.
+   - **Visual style** — appearance choices such as palette, typography, borders and spacing.
+   - **Rendering decision** — practical layout or routing choices made for a particular diagram.
+6. If the available sources do not establish a convention, label it as unresolved. Do not silently invent notation.
+7. Do not reproduce substantial copyrighted text or images from either reference. Keep independently written rules and concise source/page attribution. The supplied SodiusWillert/IBM cheat sheet identifies a CC BY-NC-ND 4.0 licence; do not copy, modify, or redistribute its artwork or page design. Treat IBMstyle as the user's name for a visual target, not as a claim of an official IBM standard.
 
 ## Initial supported scope (v0.1)
 
@@ -55,29 +57,55 @@ If syntax or semantics are unclear:
 
 - Apply only conventions supported by the available Weilkiens reference.
 - Record the reference page for each convention when known.
-- Keep definition and usage representations distinct where the reference establishes a distinction.
+- Represent definitions as rectangles and usages as rounded rectangles, following the definition/usage distinction documented in the Weilkiens reference (consulted pages 90–92; verify the exact example before extending this rule to other element kinds).
+- Keep definition and usage representations distinct through their documented geometry, not through arbitrary category tabs or invented group containers.
+- Represent usage typing using the documented defined-by relationship/notation when the selected view and reference example call for it.
+- Do not add a connector between elements unless a relationship exists in the source model or is a semantically justified, documented derived relationship.
+- In particular, do not connect sibling definitions or sibling usages merely because they are displayed beside one another.
 - Keep graphical layout decisions separate from semantic meaning.
 - Never add decorative symbols that could be mistaken for SysML notation.
 
 If the reference material is unavailable in the current conversation, state that notation-level fidelity has not yet been verified. Produce only a clearly labelled provisional rendering if the user wants to proceed.
 
-### 4. Layout and render
+### 4. Apply visual style
+
+The default visual profile is **IBMstyle**. Apply it only to visual presentation; it must not change SysML semantics or notation.
+
+IBMstyle characteristics, abstracted as implementation guidance from the user's supplied SodiusWillert/IBM cheat sheet:
+- restrained warm-neutral palette;
+- light cream or neutral fills for definition elements;
+- pale warm/orange fills for usage elements;
+- thin, subdued outlines with sufficient contrast;
+- compact, legible sans-serif typography;
+- clear element labels and textual compartments where relevant;
+- disciplined spacing and alignment;
+- clean, unobtrusive diagram background.
+
+The geometry and relationship symbols remain governed by the notation reference, not by the style profile. Color is a presentation choice only: never use color as the sole indication of semantic type. Do not reproduce the cheat sheet's page layout, logos, decorative texture, exact artwork, or complete diagram compositions.
+
+If a user requests another style, treat it as a separate named visual profile (for example, `PlainStyle`) and do not silently alter IBMstyle. If the user does not specify a style, use IBMstyle.
+
+### 5. Layout and render
 
 - Generate SVG as the primary output.
 - Use consistent typography, spacing, alignment and line routing.
 - Keep labels readable and avoid connector crossings where practical.
 - Do not let layout convenience change model semantics.
-- Use neutral, restrained styling; avoid implying semantic meaning through unsupported colors or shapes.
+- Do not use arbitrary lines to visually associate unrelated elements.
+- Use the active visual profile consistently without allowing it to override notation.
 
-### 5. Validate
+### 6. Validate
 
 Check:
 - every rendered element exists in the source model;
-- every rendered relationship exists in the source model;
+- every rendered relationship exists in the source model or is an explicitly identified, semantically justified derived relationship;
+- no unsupported relationship or decorative connector has been introduced;
 - no supported source element was unintentionally omitted from the requested view;
 - definition/usage distinctions are applied consistently;
+- usage typing is represented correctly where included;
 - labels and typing are accurate;
 - graphical conventions are sourced or explicitly marked as provisional;
+- visual style is consistent and does not encode unsupported semantics;
 - the SVG is well-formed and readable.
 
 Report any omissions, assumptions, unresolved notation questions and rendering decisions.
@@ -88,8 +116,9 @@ For each rendering task, provide:
 1. **Scope** — what part of the model is shown.
 2. **Semantic inventory** — concise list of rendered elements and relationships.
 3. **Notation status** — sourced conventions versus provisional decisions.
-4. **SVG** — complete SVG output, preferably as a standalone artifact when file generation is available.
-5. **Validation** — findings and known limitations.
+4. **Visual style** — active style profile (IBMstyle by default).
+5. **SVG** — complete SVG output, preferably as a standalone artifact when file generation is available.
+6. **Validation** — findings and known limitations.
 
 Do not claim full SysML v2 compliance. State the subset actually handled.
 
